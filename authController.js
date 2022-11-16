@@ -1,13 +1,19 @@
 class authController {
-    async registration(req, res) {
+  async registration(req, res) {
+    try {
+    } catch (e) {}
+  }
 
-    }
+  async login(req, res) {
+    try {
+    } catch (e) {}
+  }
 
-    async login(req, res) {
-
-    }
-
-    async getUsers(req, res) {
-        
-    }
+  async getUsers(req, res) {
+    try {
+        res.json("server works")
+    } catch (e) {}
+  }
 }
+
+module.exports = new authController();

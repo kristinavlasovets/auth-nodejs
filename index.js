@@ -13,7 +13,7 @@ const start = async () => {
     await mongoose.connect(
       `mongodb+srv://qwerty:qwerty123@cluster0.nkhtenn.mongodb.net/reg-auth?retryWrites=true&w=majority`
     );
-    app.listen(PORT, () => console.log(`server started on post ${5000}`));
+    app.listen(PORT, () => console.log(`server started on post ${PORT}`));
   } catch (e) {
     console.log(e);
   }
