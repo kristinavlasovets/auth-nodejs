@@ -12,8 +12,8 @@ module.exports = function (req, res, next) {
       return res.status(403).json({ message: "User is not authenticated." });
     }
     const decodedData = jwt.verify(token, secret);
-    req.user = decodedData
-    next()
+    req.user = decodedData;
+    next();
   } catch (e) {
     console.log(e);
     return res.status(403).json({ message: "User is not authenticated." });
