@@ -6,6 +6,6 @@
     password: {type: String, required: true},
     regDate: {type: Date, default: Date.now},
     authDate: {type: Date, default: Date.now},
-    status: {type: String, default: "registered"}
+    status: {type: String, default: "blocked"}
  })
  module.exports = model('User', User)
