@@ -17,6 +17,7 @@ class authController {
 		try {
 			const errors = validationResult(req);
 			if (!errors.isEmpty()) {
+				console.log(errors);
 				return res.status(400).json({message: 'Registration error', errors});
 			}
 			const {username, email, password} = req.body;
@@ -45,16 +46,21 @@ class authController {
 			const {email, password} = req.body;
 			const user = await User.findOne({email});
 			if (!user) {
-				return res
-					.status(400)
-					.json({message: `Email address ${email} is not registered.`});
+				return res.status(400).json({
+					message: `Email address '${email}' is not registered.`,
+				});
+			}
+			if (user.status !== 'registered') {
+				return res.status(400).json({
+					message: `User with email address '${email}' is blocked.`,
+				});
 			}
 			const validPassword = bcrypt.compareSync(password, user.password);
 			if (!validPassword) {
 				return res.status(400).json({message: 'Incorrect password.'});
 			}
 			const token = generateAccessToken(user._id, user.status);
-			return res.json({token});
+			return res.json({token, id: user._id});
 		} catch (e) {
 			console.log(e);
 			res.status(400).json({message: 'Authentication error'});
@@ -79,6 +85,36 @@ class authController {
 				} else {
 					console.log('Deleted : ', docs);
 					return res.json({message: 'User is deleted.'});
+				}
+			});
+		} catch (e) {
+			console.log(e);
+		}
+	}
+	async blockUsers(req, res) {
+		try {
+			const {id} = req.params;
+			User.findByIdAndUpdate(id, {status: 'blocked'}, function (e, docs) {
+				if (e) {
+					console.log(e);
+				} else {
+					console.log('Blocked : ', docs);
+					return res.json({message: 'User is blocked.'});
+				}
+			});
+		} catch (e) {
+			console.log(e);
+		}
+	}
+	async unblockUsers(req, res) {
+		try {
+			const {id} = req.params;
+			User.findByIdAndUpdate(id, {status: 'registered'}, function (e, docs) {
+				if (e) {
+					console.log(e);
+				} else {
+					console.log('Unblocked : ', docs);
+					return res.json({message: 'User is unblocked.'});
 				}
 			});
 		} catch (e) {

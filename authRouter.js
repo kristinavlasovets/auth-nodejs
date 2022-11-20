@@ -17,5 +17,7 @@ router.post(
 router.post('/authentication', controller.authentication);
 router.get('/users', controller.getUsers);
 router.delete('/users/:id', controller.deleteUsers);
+router.patch('/users/block/:id', controller.blockUsers);
+router.patch('/users/unblock/:id', controller.unblockUsers);
 
 module.exports = router;
